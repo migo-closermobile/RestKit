@@ -84,12 +84,17 @@ static NSString * const kAFRKCharactersToBeEscapedInQueryString = @":/?&=;+!@#$(
 
 static NSString * AFRKPercentEscapedQueryStringKeyFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
     static NSString * const kAFRKCharactersToLeaveUnescapedInQueryStringPairKey = @"[].";
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, (__bridge CFStringRef)kAFRKCharactersToLeaveUnescapedInQueryStringPairKey, (__bridge CFStringRef)kAFRKCharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
+#pragma clang diagnostic pop
 }
 
 static NSString * AFRKPercentEscapedQueryStringValueFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, NULL, (__bridge CFStringRef)kAFRKCharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
+#pragma clang diagnostic pop
 }
 
 #pragma mark -
