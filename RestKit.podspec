@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
     os.source_files   = 'Code/ObjectMapping.h', 'Code/ObjectMapping/**/*'
     os.dependency       'RestKit/Support'
     os.dependency       'RKValueTransformers', '~> 1.1.0'
-    os.dependency       'ISO8601DateFormatterValueTransformer', '~> 0.7.0'
+    os.dependency       'ISO8601DateFormatterValueTransformer', '~> 0.6.1'
     os.private_header_files = 'Code/ObjectMapping/**/*_Private.h'
   end
 
