@@ -569,7 +569,10 @@ NSString *RKPathAndQueryStringFromURLRelativeToURL(NSURL *URL, NSURL *baseURL)
     } else {
         // NOTE: [URL relativeString] would return the same value as `absoluteString` if URL is not relative to a baseURL
         NSString *query = [URL query];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         NSString *pathWithPrevervedTrailingSlash = [CFBridgingRelease(CFURLCopyPath((CFURLRef)URL)) stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+#pragma clang diagnostic pop
         return (query && [query length]) ? [NSString stringWithFormat:@"%@?%@", pathWithPrevervedTrailingSlash, query] : pathWithPrevervedTrailingSlash;
     }
 }

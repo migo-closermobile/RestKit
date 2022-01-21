@@ -145,7 +145,10 @@ NSString *RKPathFromPatternWithObject(NSString *pathPattern, id object)
         NSMutableDictionary *parsedParameters = [[self.socPattern parameterDictionaryFromSourceString:path] mutableCopy];
         if (addEscapes) {
             for (NSString *key in [parsedParameters allKeys]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 NSString *unescapedParameter = [parsedParameters[key] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+#pragma clang diagnostic pop
                 [parsedParameters setValue:unescapedParameter forKey:key];
             }
         }

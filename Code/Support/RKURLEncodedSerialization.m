@@ -158,8 +158,11 @@ NSDictionary *RKDictionaryFromURLEncodedStringWithEncoding(NSString *URLEncodedS
     for (NSString *keyValuePairString in [URLEncodedString componentsSeparatedByString:@"&"]) {
         NSArray *keyValuePairArray = [keyValuePairString componentsSeparatedByString:@"="];
         if ([keyValuePairArray count] < 2) continue; // Verify that there is at least one key, and at least one value.  Ignore extra = signs
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         NSString *key = [keyValuePairArray[0] stringByReplacingPercentEscapesUsingEncoding:encoding];
         NSString *value = [keyValuePairArray[1] stringByReplacingPercentEscapesUsingEncoding:encoding];
+#pragma clang diagnostic pop
 
         // URL spec says that multiple values are allowed per key
         id results = queryComponents[key];

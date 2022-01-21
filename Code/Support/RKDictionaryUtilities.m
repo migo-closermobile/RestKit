@@ -36,8 +36,11 @@ NSDictionary *RKDictionaryByReplacingPercentEscapesInEntriesFromDictionary(NSDic
      {
          NSString *escapedKey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
          id escapedValue = value;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
          if ([value respondsToSelector:@selector(stringByReplacingPercentEscapesUsingEncoding:)])
              escapedValue = [value stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+#pragma clang diagnostic pop
          results[escapedKey] = escapedValue;
      }];
     return results;
