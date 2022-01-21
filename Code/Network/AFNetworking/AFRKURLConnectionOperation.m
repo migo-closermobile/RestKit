@@ -516,8 +516,11 @@ static BOOL AFRKSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
 - (void)operationDidStart {
     [self.lock lock];
     if (![self isCancelled]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         self.connection = [[NSURLConnection alloc] initWithRequest:self.request delegate:self startImmediately:NO];
-        
+#pragma clang diagnostic pop
+
         NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
         for (NSString *runLoopMode in self.runLoopModes) {
             [self.connection scheduleInRunLoop:runLoop forMode:runLoopMode];
@@ -592,7 +595,8 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
         SecTrustRef serverTrust = challenge.protectionSpace.serverTrust;
         
         SecPolicyRef policy = SecPolicyCreateBasicX509();
-        SecTrustEvaluate(serverTrust, NULL);
+        SecTrustResultType resultType = kSecTrustResultInvalid;
+        SecTrustEvaluate(serverTrust, &resultType);
         CFIndex certificateCount = SecTrustGetCertificateCount(serverTrust);
         NSMutableArray *trustChain = [NSMutableArray arrayWithCapacity:certificateCount];
         

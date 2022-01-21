@@ -29,12 +29,15 @@ extern NSDictionary *RKQueryParametersFromStringWithEncoding(NSString *string, N
 // NSString's stringByAddingPercentEscapes doesn't do a complete job (it ignores "/?&", among others)
 static NSString *RKEncodeURLString(NSString *unencodedString)
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     NSString *encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
                                                                                   NULL,
                                                                                   (__bridge CFStringRef)unencodedString,
                                                                                   NULL,
                                                                                   (CFStringRef)@"!*'();:@&=+$,/?%#[]",
                                                                                   kCFStringEncodingUTF8));
+#pragma clang diagnostic pop
     return encodedString;
 }
 
@@ -142,7 +145,10 @@ NSString *RKPathFromPatternWithObject(NSString *pathPattern, id object)
         NSMutableDictionary *parsedParameters = [[self.socPattern parameterDictionaryFromSourceString:path] mutableCopy];
         if (addEscapes) {
             for (NSString *key in [parsedParameters allKeys]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 NSString *unescapedParameter = [parsedParameters[key] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+#pragma clang diagnostic pop
                 [parsedParameters setValue:unescapedParameter forKey:key];
             }
         }

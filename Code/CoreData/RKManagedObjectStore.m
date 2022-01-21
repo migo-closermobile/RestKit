@@ -486,9 +486,12 @@ static char RKManagedObjectContextChangeMergingObserverAssociationKey;
     if (block) block(destinationModel, destinationModelURL);
     
     // Check if the store is compatible with our model
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     NSDictionary *storeMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType
                                                                                              URL:storeURL
                                                                                            error:error];
+#pragma clang diagnostic pop
     if (! storeMetadata) return NO;
     if ([destinationModel isConfiguration:nil compatibleWithStoreMetadata:storeMetadata]) {
         // Our store is compatible with the current model, no migration is necessary

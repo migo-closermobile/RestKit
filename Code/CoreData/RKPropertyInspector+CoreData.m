@@ -107,7 +107,7 @@
             }
             RKPropertyInspectorPropertyInfo *info;
             info = [RKPropertyInspectorPropertyInfo propertyInfoWithName:name
-                                                           keyValueClass:destinationClass ?: [NSNull null]
+                                                           keyValueClass:destinationClass ?: [NSNull class]
                                                              isPrimitive:NO];
             entityInspection[name] = info;
         }

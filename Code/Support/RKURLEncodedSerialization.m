@@ -29,11 +29,17 @@ static NSString * const RKAFCharactersToBeEscapedInQueryString = @":/?&=;+!@#$()
 static NSString * RKAFPercentEscapedQueryStringKeyFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
     static NSString * const RKAFCharactersToLeaveUnescapedInQueryStringPairKey = @"[].";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, (__bridge CFStringRef)RKAFCharactersToLeaveUnescapedInQueryStringPairKey, (__bridge CFStringRef)RKAFCharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
+#pragma clang diagnostic pop
 }
 
 static NSString * AFPercentEscapedQueryStringValueFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, NULL, (__bridge CFStringRef)RKAFCharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
+#pragma clang diagnostic pop
 }
 
 #pragma mark -
@@ -152,8 +158,11 @@ NSDictionary *RKDictionaryFromURLEncodedStringWithEncoding(NSString *URLEncodedS
     for (NSString *keyValuePairString in [URLEncodedString componentsSeparatedByString:@"&"]) {
         NSArray *keyValuePairArray = [keyValuePairString componentsSeparatedByString:@"="];
         if ([keyValuePairArray count] < 2) continue; // Verify that there is at least one key, and at least one value.  Ignore extra = signs
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         NSString *key = [keyValuePairArray[0] stringByReplacingPercentEscapesUsingEncoding:encoding];
         NSString *value = [keyValuePairArray[1] stringByReplacingPercentEscapesUsingEncoding:encoding];
+#pragma clang diagnostic pop
 
         // URL spec says that multiple values are allowed per key
         id results = queryComponents[key];
@@ -182,8 +191,10 @@ NSString *RKPercentEscapedQueryStringFromStringWithEncoding(NSString *string, NS
 {
     // Escape characters that are legal in URIs, but have unintentional semantic significance when used in a query string parameter
     static NSString * const kAFLegalCharactersToBeEscaped = @":/.?&=;+!@$()~";
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, NULL, (__bridge CFStringRef)kAFLegalCharactersToBeEscaped, CFStringConvertNSStringEncodingToEncoding(encoding));
+#pragma clang diagnostic pop
 }
 
 NSDictionary *RKQueryParametersFromStringWithEncoding(NSString *string, NSStringEncoding encoding)
