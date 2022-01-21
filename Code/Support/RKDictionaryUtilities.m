@@ -34,7 +34,10 @@ NSDictionary *RKDictionaryByReplacingPercentEscapesInEntriesFromDictionary(NSDic
     NSMutableDictionary *results = [NSMutableDictionary dictionaryWithCapacity:[dictionary count]];
     [dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL *stop)
      {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
          NSString *escapedKey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+#pragma clang diagnostic pop
          id escapedValue = value;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
